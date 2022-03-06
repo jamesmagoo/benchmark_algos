@@ -1,4 +1,3 @@
-
 /**
  * This class benchmarks various sorting algorithms' run times for varying sizes of N.
  * GMIT - Computational Thinking & Algorithms 
@@ -12,6 +11,8 @@ public class Benchmarker {
 
 	public int[] testArray;
 	public int arraySize;
+	public double[] bubbleSortResults = new double[10];
+	
 	
 
 	// Array Constructor
@@ -33,63 +34,50 @@ public class Benchmarker {
 			System.out.printf(testArray[i] + ",");
 		}
 	}
-
-	// BUBBLE SORT ALGORITHM
-	public double bubbleSort() {
-
-		// start timer
-		double startTime = System.nanoTime();
-
-		for (int i = arraySize - 1; i > 0; i--) {
-			for (int j = 0; j < i; j++) {
-				if (testArray[j] > testArray[j + 1]) {
-					// swap array values
-					swapValues(j, j + 1);
-				}
-			}
-		}
-		// stop timer
-		double endTime = System.nanoTime();
-		double timeElapsed = (endTime - startTime);
-		double elapsedMillis = timeElapsed / 1000000;
-		System.out.printf("Bubble Sort O(N^2) took (ms): %.3f %n", elapsedMillis);
-		return elapsedMillis;
-	}
-
-	// function to swap array values
-	// Credit: Derek Banas (YoutTube)
-	public void swapValues(int i1, int i2) {
-		int temp = testArray[i1];
-		testArray[i1] = testArray[i2];
-		testArray[i2] = temp;
-	}
-
-	public static void main(String[] args) {
-		
 	
+	// method to get average from array of 10 runtimes
+	public static double getAverage(double[] arr) {
+		
+		double sum = 0;
+		for (double d : arr) sum += d;
+		double average = 1.0d * sum / arr.length;
+		return average ;
+	}
+
+	
+	public static void main(String[] args) {
 	// array to store sorting times
 		double[] bubbleSortTimes = new double[10];
-
-	// Test Bubble sort algorithm 10 times for average (N=1000)
-		for (int i = 0; i < 10; i++) {
-			// Regenerate values to the arrays
-			Benchmarker b1 = new Benchmarker(20000);
-			b1.generateRandomArray();
-			//b1.printArray();
-			//double time = b1.bubbleSort();
-			double time = TestAlgos.bubbleSort(b1.testArray);
-			//b1.printArray();
-			// append to time array
-			bubbleSortTimes[i] = time ;
-			System.err.printf("%.3f %n", time);
-		}
 		
-		for(int j=0 ; j< bubbleSortTimes.length; j++) {
-			System.out.printf(bubbleSortTimes[j] + " , ");
+		// loop through increasing data sizes 
+		for (int n = 100; n <= 800; n*=2) {
+			// Construct array for size n
+			Benchmarker b1 = new Benchmarker(n);
+			// Test Bubble sort algorithm 10 times for average
+			System.out.println("N="+ b1.testArray.length);
+			for (int i = 0; i < 2; i++) {
+				// Regenerate values to the array
+				b1.generateRandomArray();
+				//b1.printArray();
+				//double time = b1.bubbleSort();
+				double time = TestAlgos.bubbleSort(b1.testArray);
+				//b1.printArray();
+				// append to time array
+				bubbleSortTimes[i] = time ;
+				//System.err.printf("%.3f %n", time);
+			}
+			double avg = getAverage(bubbleSortTimes);
+		    System.out.printf("AVERAGE: %.3f %n" , avg);
+		    // append average to bubble sort results array
+		    //bubbleSortResults[n] = avg;
 		}
-
-		// System.out.printf("%1s %-7s %-7s %-6s %-6s%n", "SIZE", "N=500", "N=1000",
-		// "N=2000", "N=3000");
+	
+//		for(int j=0 ; j< bubbleSortResults.length; j++) {
+//			System.out.printf(bubbleSortTimes[j] + " , ");
+//		}
+		
+		// OUTPUT DATA IN TABLE
+		System.out.printf("%5s %-7s %-7s %-7s %-7s %-7s %-7s %-7s %-7s %-10s %n ","SIZE", "N=100", "N=200","N=400","N=800","N=1600","N=3200","N=6400","N=12800","N=25600");
 
 	}
 

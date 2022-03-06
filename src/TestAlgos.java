@@ -1,8 +1,4 @@
 /**
- * 
- */
-
-/**
  * Class defines algorithms to be tested by Benchmarker
  * @author James McGauran
  * @date 6 Mar 2022
@@ -39,7 +35,7 @@ public class TestAlgos {
 		double endTime = System.nanoTime();
 		double timeElapsed = (endTime - startTime);
 		double elapsedMillis = timeElapsed / 1000000;
-		System.out.printf("Bubble Sort O(N^2) took (ms): %.3f %n", elapsedMillis);
+		//System.out.printf("Bubble Sort O(N^2) took (ms): %.3f %n", elapsedMillis);
 		return elapsedMillis;
 	}
 
