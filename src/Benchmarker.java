@@ -9,9 +9,14 @@
  */
 public class Benchmarker {
 
+
 	public int[] testArray;
 	public int arraySize;
-	public double[] bubbleSortResults = new double[10];
+	// array to store sorting times
+	private static double[] bubbleSortResults = new double[10];
+	private static double[] selectionSortResults = new double[10];
+	private static String[][] results = new String[2][10];
+			
 	
 
 	// Array Constructor
@@ -42,13 +47,28 @@ public class Benchmarker {
 		double average = 1.0d * sum / arr.length;
 		return average ;
 	}
+	
+	// method to print out final benchmark results
+	public static void displayResults() {
+		
+		System.out.println("Size\tN=100\tN=200");
+				
+		//loop through results arrays to print results
+		for (int i = 0; i < 10 ; i++) {
+			System.out.printf(selectionSortResults[i]+"\t");
+			System.out.printf(bubbleSortResults[i]+"\t");
+		}
+		
+		// TODO: this probably needs to be a multi-dimensional string array
+	}
 
 	
 	public static void main(String[] args) {
-	// array to store sorting times
+		// local array to store sorting times
 		double[] bubbleSortTimes = new double[10];
 		double[] selectionSortTimes = new double[10];
-		
+		// count for results arrays
+		int count=0;
 		// loop through increasing data sizes 
 		// int n = 100; n <= 25600; n*=2
 		for (int n = 100; n <= 25600; n*=2) {
@@ -77,23 +97,27 @@ public class Benchmarker {
 //				System.out.printf("& after 2nd sort");
 //				System.out.printf("%n");
 //				b1.printArray();
-				// append to time array
+				// append to local time array
 				bubbleSortTimes[i] = bubbleTime ;
 				selectionSortTimes[i] = selectionTime;
+				
 				//System.err.printf("%.3f %n", time);
 			}
 			
+			// calculate average of ten runs per size
 			double avgBubble = getAverage(bubbleSortTimes);
 			double avgSelection = getAverage(selectionSortTimes);
 		    System.out.printf("AVERAGE BUBBLE SORT: %.3f %n" , avgBubble);
 		    System.out.printf("AVERAGE SELECTION SORT: %.3f %n" , avgSelection);
-		    // append average to bubble sort results array
-		    //bubbleSortResults[n] = avg;
+		   
+		    // append average to results arrays
+		    Benchmarker.bubbleSortResults[count] = avgBubble;
+		    Benchmarker.selectionSortResults[count]= avgSelection;
+		    count++;
 		}
 	
 		
-		// OUTPUT DATA IN TABLE
-		System.out.printf("%5s %-7s %-7s %-7s %-7s %-7s %-7s %-7s %-7s %-7s %n ","SIZE", "N=100", "N=200","N=400","N=800","N=1600","N=3200","N=6400","N=12800","N=25600");
+		displayResults();
 
 	}
 
