@@ -13,7 +13,6 @@ public class Benchmarker {
 	public int arraySize;
 	public double[] bubbleSortResults = new double[10];
 	
-	
 
 	// Array Constructor
 	Benchmarker(int size) {
@@ -32,12 +31,12 @@ public class Benchmarker {
 	public void printArray() {
 		for (int i = 0; i < testArray.length; i++) {
 			System.out.printf(testArray[i] + ",");
+			
 		}
 	}
 	
-	// method to get average from array of 10 runtimes
+	// method to get average from array of 10 run times
 	public static double getAverage(double[] arr) {
-		
 		double sum = 0;
 		for (double d : arr) sum += d;
 		double average = 1.0d * sum / arr.length;
@@ -48,36 +47,53 @@ public class Benchmarker {
 	public static void main(String[] args) {
 	// array to store sorting times
 		double[] bubbleSortTimes = new double[10];
+		double[] selectionSortTimes = new double[10];
 		
 		// loop through increasing data sizes 
-		for (int n = 100; n <= 800; n*=2) {
+		// int n = 100; n <= 25600; n*=2
+		for (int n = 100; n <= 25600; n*=2) {
 			// Construct array for size n
 			Benchmarker b1 = new Benchmarker(n);
 			// Test Bubble sort algorithm 10 times for average
 			System.out.println("N="+ b1.testArray.length);
-			for (int i = 0; i < 2; i++) {
+			for (int i = 0; i < 10; i++) {
 				// Regenerate values to the array
 				b1.generateRandomArray();
-				//b1.printArray();
-				//double time = b1.bubbleSort();
-				double time = TestAlgos.bubbleSort(b1.testArray);
-				//b1.printArray();
+//				System.out.printf("%n");
+//				b1.printArray();
+				double bubbleTime = TestAlgos.bubbleSort(b1.testArray);
+//				System.out.printf("%n");
+//				System.out.printf("& after 1st sort");
+//				System.out.printf("%n");
+//				b1.printArray();
+				// produce unsorted array for next test
+				b1.generateRandomArray();
+//				System.out.printf("%n");
+//				System.out.printf("& between sorts");
+//				System.out.printf("%n");
+//				b1.printArray();
+				double selectionTime = TestAlgos.selectionSort(b1.testArray);
+//				System.out.printf("%n");
+//				System.out.printf("& after 2nd sort");
+//				System.out.printf("%n");
+//				b1.printArray();
 				// append to time array
-				bubbleSortTimes[i] = time ;
+				bubbleSortTimes[i] = bubbleTime ;
+				selectionSortTimes[i] = selectionTime;
 				//System.err.printf("%.3f %n", time);
 			}
-			double avg = getAverage(bubbleSortTimes);
-		    System.out.printf("AVERAGE: %.3f %n" , avg);
+			
+			double avgBubble = getAverage(bubbleSortTimes);
+			double avgSelection = getAverage(selectionSortTimes);
+		    System.out.printf("AVERAGE BUBBLE SORT: %.3f %n" , avgBubble);
+		    System.out.printf("AVERAGE SELECTION SORT: %.3f %n" , avgSelection);
 		    // append average to bubble sort results array
 		    //bubbleSortResults[n] = avg;
 		}
 	
-//		for(int j=0 ; j< bubbleSortResults.length; j++) {
-//			System.out.printf(bubbleSortTimes[j] + " , ");
-//		}
 		
 		// OUTPUT DATA IN TABLE
-		System.out.printf("%5s %-7s %-7s %-7s %-7s %-7s %-7s %-7s %-7s %-10s %n ","SIZE", "N=100", "N=200","N=400","N=800","N=1600","N=3200","N=6400","N=12800","N=25600");
+		System.out.printf("%5s %-7s %-7s %-7s %-7s %-7s %-7s %-7s %-7s %-7s %n ","SIZE", "N=100", "N=200","N=400","N=800","N=1600","N=3200","N=6400","N=12800","N=25600");
 
 	}
 
