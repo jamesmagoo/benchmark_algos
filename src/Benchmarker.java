@@ -15,7 +15,10 @@ public class Benchmarker {
 	// array to store sorting times
 	private static double[] bubbleSortResults = new double[10];
 	private static double[] selectionSortResults = new double[10];
-	private static String[][] results = new String[2][10];
+	
+	public static String[][] finalResults = {{"SIZE","N=100","N=200","N=400"},{"Bubble Sort","x","y","z"},{"Selection Sort","a","b","c"},{"Insertion Sort","a","b","c"}};
+	
+	
 			
 	
 
@@ -50,16 +53,25 @@ public class Benchmarker {
 	
 	// method to print out final benchmark results
 	public static void displayResults() {
-		
-		System.out.println("Size\tN=100\tN=200");
-				
-		//loop through results arrays to print results
-		for (int i = 0; i < 10 ; i++) {
-			System.out.printf(selectionSortResults[i]+"\t");
-			System.out.printf(bubbleSortResults[i]+"\t");
-		}
+		//System.out.printf("%.3f %n", bubbleSortResults[2]);	
 		
 		// TODO: this probably needs to be a multi-dimensional string array
+		
+		// format parameter for printf output
+		String format = "%15s";
+		
+		for (int i = 0; i < finalResults.length; i++)
+		{
+			for (int j = 0; finalResults[i] != null && j < finalResults[i].length; j++) {
+				System.out.printf(format, finalResults[i][j]);
+			}
+
+			System.out.println();
+		}
+		
+		
+		
+		
 	}
 
 	
@@ -71,11 +83,11 @@ public class Benchmarker {
 		int count=0;
 		// loop through increasing data sizes 
 		// int n = 100; n <= 25600; n*=2
-		for (int n = 100; n <= 25600; n*=2) {
+		for (int n = 100; n <= 800; n*=2) {
 			// Construct array for size n
 			Benchmarker b1 = new Benchmarker(n);
 			// Test Bubble sort algorithm 10 times for average
-			System.out.println("N="+ b1.testArray.length);
+			//System.out.println("N="+ b1.testArray.length);
 			for (int i = 0; i < 10; i++) {
 				// Regenerate values to the array
 				b1.generateRandomArray();
@@ -107,8 +119,8 @@ public class Benchmarker {
 			// calculate average of ten runs per size
 			double avgBubble = getAverage(bubbleSortTimes);
 			double avgSelection = getAverage(selectionSortTimes);
-		    System.out.printf("AVERAGE BUBBLE SORT: %.3f %n" , avgBubble);
-		    System.out.printf("AVERAGE SELECTION SORT: %.3f %n" , avgSelection);
+		    //System.out.printf("AVERAGE BUBBLE SORT: %.3f %n" , avgBubble);
+		    //System.out.printf("AVERAGE SELECTION SORT: %.3f %n" , avgSelection);
 		   
 		    // append average to results arrays
 		    Benchmarker.bubbleSortResults[count] = avgBubble;
