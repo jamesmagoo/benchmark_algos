@@ -13,15 +13,12 @@ public class Benchmarker {
 	public int[] testArray;
 	public int arraySize;
 	// array to store sorting times
-	private static double[] bubbleSortResults = new double[10];
-	private static double[] selectionSortResults = new double[10];
+	private static double[] bubbleSortResults = new double[9];
+	private static double[] selectionSortResults = new double[9];
 	
 	public static String[][] finalResults = {{"SIZE","N=100","N=200","N=400"},{"Bubble Sort","x","y","z"},{"Selection Sort","a","b","c"},{"Insertion Sort","a","b","c"}};
+	public static String[] header = {"N=100","N=200","N=400","N=400","N=400","N=400","N=400","N=400"};
 	
-	
-			
-	
-
 	// Array Constructor
 	Benchmarker(int size) {
 		arraySize = size;
@@ -53,20 +50,25 @@ public class Benchmarker {
 	
 	// method to print out final benchmark results
 	public static void displayResults() {
-		//System.out.printf("%.3f %n", bubbleSortResults[2]);	
+			
+		// define format parameters for printf output
+		String headerFormat = "%12s";
+		String format = "%12.3f";
 		
-		// TODO: this probably needs to be a multi-dimensional string array
+		System.out.printf("%-15s","Size:");
+		for( int n = 100; n <= 25600; n*=2) {
+			System.out.printf(headerFormat, "N=" + n);
+		}
+		System.out.println();
+		System.out.printf("%-15s","Bubble Sort:");
+		for( int i=0;i < bubbleSortResults.length; i++) {
+			System.out.printf(format, bubbleSortResults[i]);
+		}
 		
-		// format parameter for printf output
-		String format = "%15s";
-		
-		for (int i = 0; i < finalResults.length; i++)
-		{
-			for (int j = 0; finalResults[i] != null && j < finalResults[i].length; j++) {
-				System.out.printf(format, finalResults[i][j]);
-			}
-
-			System.out.println();
+		System.out.println();
+		System.out.printf("%-15s","Selection Sort:");
+		for( int i=0;i < selectionSortResults.length; i++) {
+			System.out.printf(format, selectionSortResults[i]);
 		}
 		
 		
@@ -83,7 +85,7 @@ public class Benchmarker {
 		int count=0;
 		// loop through increasing data sizes 
 		// int n = 100; n <= 25600; n*=2
-		for (int n = 100; n <= 800; n*=2) {
+		for (int n = 100; n <= 25600; n*=2) {
 			// Construct array for size n
 			Benchmarker b1 = new Benchmarker(n);
 			// Test Bubble sort algorithm 10 times for average
@@ -112,15 +114,12 @@ public class Benchmarker {
 				// append to local time array
 				bubbleSortTimes[i] = bubbleTime ;
 				selectionSortTimes[i] = selectionTime;
-				
-				//System.err.printf("%.3f %n", time);
 			}
 			
 			// calculate average of ten runs per size
 			double avgBubble = getAverage(bubbleSortTimes);
 			double avgSelection = getAverage(selectionSortTimes);
-		    //System.out.printf("AVERAGE BUBBLE SORT: %.3f %n" , avgBubble);
-		    //System.out.printf("AVERAGE SELECTION SORT: %.3f %n" , avgSelection);
+		    
 		   
 		    // append average to results arrays
 		    Benchmarker.bubbleSortResults[count] = avgBubble;
@@ -128,7 +127,7 @@ public class Benchmarker {
 		    count++;
 		}
 	
-		
+		// TODO: Add loading feedback for UX
 		displayResults();
 
 	}
