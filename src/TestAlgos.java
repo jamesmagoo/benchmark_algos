@@ -75,6 +75,40 @@ public class TestAlgos {
 		double elapsedMillis = timeElapsed / 1000000;
 		return elapsedMillis;
 	}
+	
+	/**
+	 * Selection Sort Algorithm
+	 * 
+	 * @param testArray - the array to be sorted
+	 * @return elapsedMillis - the algorithms runtime for benchmarking
+	 *
+	 */
+	
+	public static double insertionSort(int[] testArray) {
+
+		// start timer
+		double startTime = System.nanoTime();
+
+		// set key position at 1 & move through array
+		for (int i = 1; i < testArray.length; i++) {
+			int key = testArray[i];
+			// check elements to the left using while loop
+			int j = i-1;
+			// if > key =>move right by one position
+			while(j>=0 && testArray[j]>key) {
+				testArray[j+1] = testArray[j];
+				j = j-1;
+			}
+			// insert key at correct position 
+			testArray[j+1] = key;
+		}
+		
+		// stop timer
+		double endTime = System.nanoTime();
+		double timeElapsed = (endTime - startTime);
+		double elapsedMillis = timeElapsed / 1000000;
+		return elapsedMillis;
+	}
 
 	
 
