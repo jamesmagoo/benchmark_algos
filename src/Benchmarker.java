@@ -14,6 +14,7 @@ public class Benchmarker {
 	private static double[] bubbleSortResults = new double[9];
 	private static double[] selectionSortResults = new double[9];
 	private static double[] insertionSortResults = new double[9];
+	private static double[] bucketSortResults = new double[9];
 
 	// Array Constructor
 	Benchmarker(int size) {
@@ -61,6 +62,12 @@ public class Benchmarker {
 		for (int i = 0; i < bubbleSortResults.length; i++) {
 			System.out.printf(format, bubbleSortResults[i]);
 		}
+		
+		System.out.println();
+		System.out.printf("%-15s", "Bucket Sort:");
+		for (int i = 0; i < bucketSortResults.length; i++) {
+			System.out.printf(format, bucketSortResults[i]);
+		}
 
 		System.out.println();
 		System.out.printf("%-15s", "Selection Sort:");
@@ -81,6 +88,7 @@ public class Benchmarker {
 		double[] bubbleSortTimes = new double[10];
 		double[] selectionSortTimes = new double[10];
 		double[] insertionSortTimes = new double[10];
+		double[] bucketSortTimes = new double[10];
 		// count for results arrays
 		int count = 0;
 		// loop through increasing data sizes
@@ -94,29 +102,42 @@ public class Benchmarker {
 				// Regenerate values to the array
 				b1.generateRandomArray();
 				double bubbleTime = TestAlgos.bubbleSort(b1.testArray);
+				
 				// produce unsorted array for next test
 				b1.generateRandomArray();
 				double selectionTime = TestAlgos.selectionSort(b1.testArray);
+				
 				// produce unsorted array for next test
 				b1.generateRandomArray();
 				double insertionTime = TestAlgos.insertionSort(b1.testArray);
+				
+				// produce unsorted array for next test
+				b1.generateRandomArray();
+				double bucketTime = TestAlgos.bucketSort(b1.testArray, n);
+			
+				
 				// append to local time array
 				bubbleSortTimes[i] = bubbleTime;
 				selectionSortTimes[i] = selectionTime;
 				insertionSortTimes[i] = insertionTime;
+				bucketSortTimes[i] = bucketTime;
 			}
 
 			// calculate average of ten runs per size
 			double avgBubble = getAverage(bubbleSortTimes);
 			double avgSelection = getAverage(selectionSortTimes);
 			double avgInsertion = getAverage(insertionSortTimes);
+			double avgBucket = getAverage(bucketSortTimes);
 
 			// append average to results arrays
 			Benchmarker.bubbleSortResults[count] = avgBubble;
 			Benchmarker.selectionSortResults[count] = avgSelection;
 			Benchmarker.insertionSortResults[count] = avgInsertion;
+			Benchmarker.bucketSortResults[count] = avgBucket;
 			count++;
 		}
+		
+		
 
 		// TODO: Add loading feedback for UX
 		displayResults();
